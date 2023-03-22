@@ -1,0 +1,42 @@
+.data 
+	myArray: .space 20 #cada entero ocupa 4 bytes de espacio, asi que pide 20 para almacenar 5
+.text
+	#Elementos en los registers
+	addi $s0, $zero, 1
+	addi $s1, $zero, 2
+	addi $s2, $zero, 13
+	addi $s3, $zero, 4
+	addi $s4, $zero, 15
+
+	#pasar de registers a ram
+	#$t0 como indice
+	addi $t0, $zero,0
+	
+	sw $s0, myArray($t0)
+		addi $t0, $t0, 4 #aumentar 4 para el proximo indice
+	sw $s1, myArray($t0)
+		addi $t0, $t0, 4#aumentar 4 para el proximo indice
+	sw $s2, myArray($t0)
+		addi $t0, $t0, 4#aumentar 4 para el proximo indice
+	sw $s3, myArray($t0)
+		addi $t0, $t0, 4#aumentar 4 para el proximo indice
+	sw $s4, myArray($t0)
+	
+	#contador = $t0, restulado = $t3
+	addi $t0,$zero,0
+	addi $t3,$zero,0 #t3 = o
+
+	while:
+		beq $t0, 20,exit #condicion -> si $t0 es igual a 20, se termina el lazo y se imprime el resultado
+		
+		lw $t6, myArray($t0) #guardar el valor en el indice $t0 en myArray en $t6
+		add $t3,$t3,$t6 #Sumar en valor en $t6 a $t3
+		addi $t0,$t0,4 #aumentar el valor del contador
+		
+		li $v0,1
+		j while #volver a correr el lazo
+	
+	exit:
+		#addi $a0, $t6,0
+		move $a0, $t3
+		syscall
