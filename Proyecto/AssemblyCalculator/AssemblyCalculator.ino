@@ -5,7 +5,6 @@
 extern "C"
 {
   int add(int a, int b);
-  int addNegative(int a, int b);
   int subtract(int a, int b);
   int multiply(int a, int b);
   int divide(int a, int b);
@@ -47,7 +46,7 @@ void showOptions(){
   lcd.print("A = +, B = -");
   lcd.setCursor(0,1);
   lcd.print("* = *, # = /");
-  delay(5000);
+  //delay(1000);
   lcd.clear();
 }
 
@@ -97,7 +96,7 @@ void setup() {
   lcd.init(); // Inicializa la pantalla LCD I2C
   lcd.backlight(); // Enciende el backlight de la pantalla LCD I2C
   lcd.print("CALCULADORA..."); // Muestra el mensaje en la pantalla LCD I2C
-  delay(2000);
+  //delay(1000);
   showOptions();
 }
 
@@ -176,62 +175,16 @@ void loop() {
   //hacer operaciones
   switch(key){
     case '+':
-    	//suma
-      if(numero1<0 && ((numero1 * (-1)) < numero2)){
-        numeroRes = addNegative(numero2, numero1);
-      }else{
         numeroRes = add(numero1, numero2);
-      }
     	break;
     case '-':
-    	//resta
-      if(numero1>0 && numero1<(numero2)){
-        numeroRes = subtract(numero2, numero1);
-        numeroRes = numeroRes*(-1);
-
-      }else{
         numeroRes = subtract(numero1, numero2);
-      }
-      
     	break;
     case '*':
-    	if(numero1<0 && numero2>0){
-        numero1 = numero1 * (-1);
         numeroRes = multiply(numero1, numero2);
-        numeroRes= numeroRes * (-1);        
-      }
-      else if(numero2<0 && numero1>0){
-        numero2 = numero2 * (-1);
-        numeroRes = multiply(numero1, numero2);  
-        numeroRes= numeroRes * (-1);    
-      }
-      else if(numero1<0 && numero2<0){
-        numero1 = numero1 *(-1);
-        numero2 = numero2*(-1);
-        numeroRes = multiply(numero1, numero2);    
-      }else{
-        numeroRes = multiply(numero1, numero2);    
-      }
     	break;
     case '/':
-    	//division
-      if(numero1<0 && numero2>0){
-        numero1 = numero1 * (-1);
-        numeroRes = divide(numero1, numero2);
-        numeroRes= numeroRes * (-1);        
-      }
-      else if(numero2<0 && numero1>0){
-        numero2 = numero2 * (-1);
         numeroRes = divide(numero1, numero2);  
-        numeroRes= numeroRes * (-1);    
-      }
-      else if(numero1<0 && numero2<0){
-        numero1 = numero1 *(-1);
-        numero2 = numero2*(-1);
-        numeroRes = divide(numero1, numero2);    
-      }else{
-        numeroRes = divide(numero1, numero2);    
-      }
     	break;
   }
   
